@@ -41,8 +41,7 @@ namespace UserAPI.WebAPI.Controllers
         }
 
 
-        [HttpGet("GetUser")]
-        
+        [HttpGet("GetUser")]        
         public async Task<IActionResult> GetUser()
         {
             try
@@ -184,17 +183,10 @@ namespace UserAPI.WebAPI.Controllers
                 user.FullName = model.Fullname;
                 user.PhoneNumber = model.Phone.ToString();
 
-                //var userup = _mapper.Map<User>(model);
-                //userup.Id = UserId;
-                //user.ConcurrencyStamp = Guid.NewGuid().ToString();
-                //user.SecurityStamp = Guid.NewGuid().ToString();
-
                 var result = await _userManager.UpdateAsync(user);                
-                //_mapper.Map(model, user);
 
                 if (result.Succeeded)
                 {
-                    // return Ok();
                     return Created($"/users/{model.Name}", _mapper.Map<UserDto>(user));
 
                 }
@@ -202,8 +194,8 @@ namespace UserAPI.WebAPI.Controllers
             }
             catch (System.Exception ex)
             {
-
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Banco de Dados Falhou {ex.Message}");
             }
 
             return BadRequest();
@@ -225,9 +217,10 @@ namespace UserAPI.WebAPI.Controllers
                 }
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Banco de Dados Falhou {ex.Message}");                
             }
 
             return BadRequest();

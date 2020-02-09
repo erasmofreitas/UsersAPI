@@ -98,7 +98,7 @@ namespace UserAPI.WebAPI
 
            // app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
