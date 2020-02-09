@@ -6,7 +6,7 @@ using UserAPI.Domain.Identity;
 
 namespace UserAPI.Repository
 {
-    public class UserApiContext : IdentityDbContext<UserIdentity, Role, int,
+    public class UserApiContext : IdentityDbContext<User, Role, int,
                                                     IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
                                                     IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
@@ -27,7 +27,7 @@ namespace UserAPI.Repository
                     .HasForeignKey(ur => ur.RoleId)
                     .IsRequired();
 
-                UserRole.HasOne(ur => ur.UserIdentity)
+                UserRole.HasOne(ur => ur.user)
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();                

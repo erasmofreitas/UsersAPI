@@ -22,14 +22,14 @@ namespace UserAPI.WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly UserManager<UserIdentity> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public SignInManager<UserIdentity> _signInManager;
+        public SignInManager<User> _signInManager;
 
         public AuthController(IConfiguration config,
-                                UserManager<UserIdentity> userManager,
-                                SignInManager<UserIdentity> signInManager,
+                                UserManager<User> userManager,
+                                SignInManager<User> signInManager,
                                 IMapper mapper)
         {
             _signInManager = signInManager;
@@ -41,19 +41,19 @@ namespace UserAPI.WebAPI.Controllers
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUser()
         {
-            return Ok(new UserIdentityDto());
+            return Ok(new UserDto());
         }
 
         [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(UserIdentityDto userIdentityDto)
+        public async Task<IActionResult> Register(UserDto userIdentityDto)
         {
             try
             {
-                var user = _mapper.Map<UserIdentity>(userIdentityDto);
+                var user = _mapper.Map<User>(userIdentityDto);
                 var result = await _userManager.CreateAsync(user, userIdentityDto.Password);
 
-                var userToReturn = _mapper.Map<UserIdentityDto>(user);
+                var userToReturn = _mapper.Map<UserDto>(user);
 
                 if (result.Succeeded)
                 {
@@ -104,7 +104,7 @@ namespace UserAPI.WebAPI.Controllers
             }
         }
 
-        private async Task<string> GenereteJWToken(UserIdentity userIdentity)
+        private async Task<string> GenereteJWToken(User userIdentity)
         {
 
             var claims = new List<Claim>

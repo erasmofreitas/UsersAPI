@@ -39,7 +39,7 @@ namespace UserAPI.WebAPI
                 x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            IdentityBuilder builder = services.AddIdentityCore<UserIdentity>(options =>
+            IdentityBuilder builder = services.AddIdentityCore<User>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -52,7 +52,7 @@ namespace UserAPI.WebAPI
             builder.AddEntityFrameworkStores<UserApiContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
-            builder.AddSignInManager<SignInManager<UserIdentity>>();
+            builder.AddSignInManager<SignInManager<User>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

@@ -10,7 +10,7 @@ using UserAPI.Repository;
 namespace UserAPI.Repository.Migrations
 {
     [DbContext(typeof(UserApiContext))]
-    [Migration("20200208190922_init")]
+    [Migration("20200208235147_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,7 +136,7 @@ namespace UserAPI.Repository.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("UserAPI.Domain.Identity.UserIdentity", b =>
+            modelBuilder.Entity("UserAPI.Domain.Identity.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,6 +145,9 @@ namespace UserAPI.Repository.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -165,6 +168,9 @@ namespace UserAPI.Repository.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -262,7 +268,7 @@ namespace UserAPI.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("UserAPI.Domain.Identity.UserIdentity", null)
+                    b.HasOne("UserAPI.Domain.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,7 +277,7 @@ namespace UserAPI.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("UserAPI.Domain.Identity.UserIdentity", null)
+                    b.HasOne("UserAPI.Domain.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -280,7 +286,7 @@ namespace UserAPI.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("UserAPI.Domain.Identity.UserIdentity", null)
+                    b.HasOne("UserAPI.Domain.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,7 +301,7 @@ namespace UserAPI.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserAPI.Domain.Identity.UserIdentity", "UserIdentity")
+                    b.HasOne("UserAPI.Domain.Identity.User", "user")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -10,8 +10,8 @@ namespace UserAPI.WebAPI.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Users, UsersDto>().ReverseMap();
-            CreateMap<UserIdentity, UserIdentityDto>().ReverseMap();
-            CreateMap<UserIdentity, UserLoginDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
         }
     }
 }
